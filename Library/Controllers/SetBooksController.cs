@@ -62,17 +62,19 @@ namespace Library.Controllers
             ModelState.Remove("SetBooksId");
             if (ModelState.IsValid)
             {
+                SetBooks setBooks = new SetBooks { setName = setOfBook.setName, Height = setOfBook.Height, BookcaseId = setOfBook.BookcaseId };
+                _context.Add(setOfBook);
+                await _context.SaveChangesAsync();
+
                 // עיבוד הנתונים של הספרים
                 foreach (var book in setOfBook.bookListModel)
                 {
-                    Book onebook = new Book { BooksName = book.Name, Width = book.Width, Height = setOfBook.Height, SetBooksId = setOfBook.id, BookcaseId = setOfBook.BookcaseId };
+                    Book onebook = new Book { BooksName = book.Name, Width = book.Width, Height = setBooks.Height, SetBooksId = setBooks.id, BookcaseId = setBooks.BookcaseId };
                     setOfBook.bookList.Add(onebook);
                     _context.Add(onebook);
                     await _context.SaveChangesAsync();
                 }
 
-                _context.Add(setOfBook);
-                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(setOfBook);
