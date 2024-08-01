@@ -1,0 +1,74 @@
+﻿@model Library.Models.SetBooks
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>SetBooks</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="BookcaseId" class="control-label"></label>
+                <select asp-for="BookcaseId" class="form-control" asp-items="ViewBag.BookcaseId" id="bookcaseSelect">
+                <option value="" disabled selected>Select Bookcase</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="setName" class="control-label"></label>
+                <input asp-for="setName" class="form-control" />
+                <span asp-validation-for="setName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Height" class="control-label"></label>
+                <input asp-for="Height" class="form-control" />
+                <span asp-validation-for="Height" class="text-danger"></span>
+            </div>
+
+            <div id="booksContainer">
+                <div class="book-input">
+                    <label>שם ספר 1:</label>
+                    <input type="text" name="bookListModel[0].Name" class="form-control" />
+                    <label>רוחב ספר 1:</label>
+                    <input type="text" name="bookListModel[0].Width" class="form-control" />
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-secondary" onclick="addBookInput()">ספר חדש</button>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        let bookCount = 1;
+
+        function addBookInput() {
+            const booksContainer = document.getElementById('booksContainer');
+            const newBookDiv = document.createElement('div');
+            newBookDiv.className = 'book-input';
+            newBookDiv.innerHTML = `
+                        <label>שם ספר ${bookCount + 1}:</label>
+                        <input type="text" name="bookListModel[${bookCount}].Name" class="form-control" />
+                        <label>רוחב ספר ${bookCount + 1}:</label>
+                        <input type="text" name="bookListModel[${bookCount}].Width" class="form-control" />
+                    `;
+            booksContainer.appendChild(newBookDiv);
+            bookCount++;
+        }
+    </script>
+}

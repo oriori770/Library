@@ -1,0 +1,79 @@
+﻿@model IEnumerable<Library.Models.Book>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>The list of libraries</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+@if (ViewData["FreeSpace"] != null)
+{
+    <div class="alert alert-info">
+        <strong>Free Space Available:</strong> @ViewData["FreeSpace"] units.
+    </div>
+}
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BooksName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Height)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Width)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Bookcase)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsSet)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.shelf)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.shelf.Bookcase.genre)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BooksName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Height)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Width)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Bookcase.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsSet)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.shelf.Id)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.shelf.Bookcase.genre)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.id" class="btn btn-primary">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.id" class="btn btn-info">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.id" class="btn btn-danger">Delete</a>
+
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+          

@@ -1,0 +1,102 @@
+﻿@model Library.Models.Book
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Book</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="BooksName" class="control-label"></label>
+                <input asp-for="BooksName" class="form-control" />
+                <span asp-validation-for="BooksName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Height" class="control-label"></label>
+                <input asp-for="Height" class="form-control" />
+                <span asp-validation-for="Height" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Width" class="control-label"></label>
+                <input asp-for="Width" class="form-control" />
+                <span asp-validation-for="Width" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BookcaseId" class="control-label"></label>
+                <select asp-for="BookcaseId" class="form-control" asp-items="ViewBag.BookcaseId" id="bookcaseSelect">
+                <option value="" disabled selected>Select Bookcase</option>
+                </select>
+
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsSet" /> @Html.DisplayNameFor(model => model.IsSet)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="ShelfId" class="control-label"></label>
+                <select asp-for="ShelfId" class="form-control" asp-items="ViewBag.ShelfId" id="shelfSelect">
+                <option value="" disabled selected>Select Shelf</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        document.addEventListener("DOMContentLoaded", function() 
+        {
+            const bookcaseSelect = document.getElementById('bookcaseSelect');
+            const shelfSelect = document.getElementById('shelfSelect');
+
+            // פונקציה לסינון הערכים לפי הבחירה ב-BookcaseId
+            function filterShelfIdOptions() 
+            {
+                const selectedBookcase = parseInt(bookcaseSelect.value);
+
+                //  alert(selectedBookcase);
+                for (let option of Array.from(shelfSelect.options)) 
+                {
+                    if (selectedBookcase === parseInt(option.value))
+                    {
+                        option.style.display = 'block';
+                    } 
+                    else 
+                    {
+                        option.style.display = 'none';
+                    }                    
+
+
+                }
+            }
+
+            // קריאה לפונקציה כאשר המשתמש משנה את הבחירה ב-BookcaseId
+            bookcaseSelect.addEventListener('change', filterShelfIdOptions);
+
+            
+        });
+    </script>
+}
